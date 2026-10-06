@@ -3,7 +3,7 @@
 // this string — the server marks the page it serves there (see index.ts) — so it can't be read
 // from the public JS bundle, robots.txt or the sitemap. ADMIN_PATH in the environment overrides
 // the default. Read lazily, because dotenv only loads .env after the imports have run.
-const DEFAULT_ADMIN_PATH = '/private-userwebspectron';
+const DEFAULT_ADMIN_PATH = '/private-user';
 
 export function adminPath(): string {
   const trimmed = (process.env.ADMIN_PATH || '').trim().replace(/^\/+|\/+$/g, '');
