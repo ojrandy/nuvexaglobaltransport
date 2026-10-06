@@ -76,8 +76,12 @@ Paste the outputs into `ADMIN_PASSWORD_HASH` and `SESSION_SECRET`. **Never reuse
 **hPanel → Environment variables (Nuvexa):** `NODE_ENV=production`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET`,
 `SEED_DEMO_DATA=false`, `DB_PATH=/home/<hostinger-user>/nuvexa-data/ngt.db` (the server creates the folder). Set `PORT`
 only if the panel doesn't. Leave `ADMIN_PROXY_TARGET` **unset**: the admin console is part of the same app.
-Optional: `ADMIN_PATH` to move the console to another private path without a code change (default
-`/private-user`, see §5).
+**Recommended:** `ADMIN_PATH=/<random path>` (owner, 2026-10-06), so the live console is not at the guessable
+default `/private-user` that is visible in this repo (see §5). Generate it locally and paste it straight into hPanel;
+never commit it or write it in docs or chat:
+```bash
+node -e "console.log('/console-' + require('crypto').randomBytes(9).toString('hex'))"
+```
 
 **Database.** Nuvexa starts with a **fresh** `ngt.db`; nothing is migrated from the previous client. The server
 creates the schema on first start.
@@ -93,7 +97,8 @@ the same, storage persists. **Then remove that endpoint.**
 | `{{DOMAIN}}` | Node app | Public site |
 | `www.{{DOMAIN}}` | Redirect → apex | |
 
-**Admin console: `https://{{DOMAIN}}/private-user/`** (owner, 2026-10-06). It's a path on the same app,
+**Admin console: `https://{{DOMAIN}}<ADMIN_PATH>/`** (default `/private-user/` when `ADMIN_PATH` is unset; the live
+value exists only in hPanel and the owner's password manager, 2026-10-06). It's a path on the same app,
 not a subdomain, so the whole site is **one** Hostinger Node app and needs no extra DNS record.
 
 - The path lives only in `server/adminPath.ts` (overridable with the `ADMIN_PATH` env var). The server serves
@@ -116,7 +121,7 @@ not a subdomain, so the whole site is **one** Hostinger Node app and needs no ex
 
 - [ ] Home loads over HTTPS with the Nuvexa logo and photos, no console errors.
 - [ ] `/api/health` returns `ok` with service name "Nuvexa Global Transport API".
-- [ ] `{{DOMAIN}}/private-user/` → login works with the **new** password; the old SDL password does not. `/admin` and `#/admin` on the public domain do **not** open admin.
+- [ ] `{{DOMAIN}}<ADMIN_PATH>/` → login works with the **new** password; the old SDL password does not. `/admin`, `/private-user/` (once `ADMIN_PATH` is set) and `#/admin` on the public domain do **not** open admin.
 - [ ] Create a shipment in admin → it gets an `NGT` + 5-character ID → the public Track page finds it.
 - [ ] Waybill / POD PDFs download and show Nuvexa branding only.
 - [ ] Quote request → appears in admin → quote link opens publicly.
