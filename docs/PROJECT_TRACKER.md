@@ -78,7 +78,7 @@
 | 14 | ~~OG image~~ **Resolved 2026-10-04: keep the photo, scrim darkened to 0.82** | 4.2 |
 | 15 | ~~Drawer email overflow~~ **Resolved 2026-10-04: drawer button text reduced to 0.75rem** | 4.3 |
 | 16 | Gateways: owner asked for Asia + USA gateways (2026-10-04), then to keep Africa but list it last. Picked Seoul (ICN), Tokyo (NRT), Chicago (ORD), Miami (MIA) and new lanes; confirm or swap the cities | Home, Network |
-| 17 | Final yes for the force-push of `nuvexa-main` → `nuvexa` `main` (replaces GitHub history); then remove remotes `origin` + `sdl`. Also: keep or trim the SDL mentions in CLAUDE.md / PROMPTS.md / docs/*.md before pushing? | 7.1 |
+| 17 | ~~Final yes for the force-push~~ **Done 2026-10-06** (`ea885fd`, see Change log). Still open: remove remotes `origin` + `sdl`. Also: keep or trim the SDL mentions in CLAUDE.md / PROMPTS.md / docs/*.md before pushing? | 7.1 |
 
 ## Decisions log
 | Date | Decision |
