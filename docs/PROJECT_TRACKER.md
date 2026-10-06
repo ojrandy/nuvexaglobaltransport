@@ -50,7 +50,7 @@
 - [x] 6.3 Visual comparison at 375px / 1440px: only name, logo and photos differ. *Also differ, by owner decision: Home H1 (`Faster, Safer, Further.`), tagline, +4 gateways (22 vs 18).*
 
 ## Phase 7 — Deploy (Prompt 07, DEPLOYMENT.md)
-- [~] 7.1 Fresh history (owner chose option B): one clean commit force-pushed to `ojrandy/nuvexaglobaltransport` `main` after the owner's final go-ahead (DEPLOYMENT §2).
+- [x] 7.1 Fresh history (owner chose option B): one clean commit force-pushed to `ojrandy/nuvexaglobaltransport` `main` after the owner's final go-ahead (DEPLOYMENT §2).
 - [~] 7.2 New admin password hash + new session secret set in hPanel (never committed).
 - [~] 7.3 Hostinger Node app: Node 22.x, install/start commands, env vars, `DB_PATH` outside the app folder.
 - [~] 7.4 Domain and `www` on the one app; admin at the private path `/private-user/` (no subdomain); SSL forced.
@@ -114,6 +114,7 @@
 | 2026-10-06 | 7.4 | Owner: the Hostinger plan allows only 5 Node apps, so admin moved from `private.` subdomain to `/private-user/` on the main domain. Path is server-only (`server/adminPath.ts`, env `ADMIN_PATH`); server serves `index.html` there with an `admin-console` meta marker + `noindex`/`no-store`; `ADMIN_SUBDOMAIN`/`ADMIN_HOST` removed. Verified on the built app: path absent from `dist/`, exact path → console + working login, `/admin`, look-alike paths and `#/admin` on a non-localhost host → not admin, robots.txt doesn't reveal it. Build 0 errors, 34/34 tests. |
 | 2026-10-06 | 7.4 | Owner: Smartsupp live chat removed (loader in `index.html`, hide-on-admin effect in `App.tsx`); admin path shortened to `/private-user/`. |
 | 2026-10-06 | 7.4 | Owner: keep `/private-user/` as the live admin path (no random `ADMIN_PATH`; simpler to run). Random-path docs from `e8724b5` reverted; `ADMIN_PATH` stays unset in hPanel. |
+| 2026-10-06 | 7.1 | Owner go-ahead: `nuvexa-main` pushed to `webspectron/novaTransport` `main` (fast-forward `7e48f8b..ea885fd`) and force-pushed to `ojrandy/nuvexaglobaltransport` `main` (replaced SDL history `8161ae7`, `--force-with-lease`). Both at `ea885fd`. |
 
 ---
 
