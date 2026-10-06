@@ -1,0 +1,119 @@
+/* =========================================================================
+   Nuvexa Global Transport design system — tokens (BRAND_GUIDE.md §4)
+   Palette derived from the logo: black #060606 and red #D3070B.
+   Primary = graphite (logo black), Accent = brand red (500 = logo red),
+   Ink = deep surfaces. Status colours stay semantic, never brand colours.
+   ========================================================================= */
+:root {
+  /* Brand: Primary (graphite, from the logo black) */
+  --ngt-primary-50: #FAFAFA;
+  --ngt-primary-100: #F4F4F4;
+  --ngt-primary-200: #E5E5E5;
+  --ngt-primary-300: #D4D4D4;
+  --ngt-primary-400: #A1A1A1;
+  --ngt-primary-500: #737373;
+  --ngt-primary-600: #525252;
+  --ngt-primary-700: #404040;
+  --ngt-primary-800: #262626;
+  --ngt-primary-900: #171717;
+
+  /* Brand: Accent (brand red; 500 is the exact logo red). On Ink backgrounds use 400 for
+     small text; 500 only for large text, icons and buttons (3.21:1 on Ink 950). */
+  --ngt-accent-50: #FFF2F0;
+  --ngt-accent-100: #FFE2DE;
+  --ngt-accent-200: #FFCBC3;
+  --ngt-accent-300: #FFA598;
+  --ngt-accent-400: #FF6758;
+  --ngt-accent-500: #D3070B;
+  --ngt-accent-600: #B70005;
+  --ngt-accent-700: #950003;
+  --ngt-accent-800: #740002;
+  --ngt-accent-900: #540001;
+
+  /* Brand: Ink (dark hero, footer, admin sidebar) */
+  --ngt-ink-950: #181818;
+  --ngt-ink-900: #1F1F1F;
+  --ngt-ink-800: #282828;
+  --ngt-ink-700: #333333;
+
+  /* RGB triplets for translucent brand colours: rgba(var(--ngt-accent-rgb), 0.2) */
+  --ngt-accent-rgb: 211, 7, 11;
+  --ngt-ink-rgb: 24, 24, 24;
+  --ngt-primary-rgb: 23, 23, 23;
+
+  /* Semantic status colours (shipment states) */
+  --ngt-success-50: #ecfdf5;   /* Delivered */
+  --ngt-success-100: #d1fae5;
+  --ngt-success-500: #10b981;
+  --ngt-success-600: #059669;
+  --ngt-success-700: #047857;
+
+  --ngt-warning-50: #fffbeb;   /* Delayed / exception pending */
+  --ngt-warning-100: #fef3c7;
+  --ngt-warning-200: #fde68a;
+  --ngt-warning-500: #f59e0b;
+  --ngt-warning-600: #d97706;
+  --ngt-warning-700: #b45309;
+
+  --ngt-danger-50: #fef2f2;    /* Exception / held */
+  --ngt-danger-100: #fee2e2;
+  --ngt-danger-500: #ef4444;
+  --ngt-danger-600: #dc2626;
+
+  --ngt-info-50: #eff6ff;      /* In transit */
+  --ngt-info-100: #dbeafe;
+  --ngt-info-200: #bfdbfe;
+  --ngt-info-500: #3b82f6;
+  --ngt-info-600: #2563eb;
+  --ngt-info-700: #1d4ed8;
+
+  /* Neutrals */
+  --ngt-slate-900: #0f172a;
+  --ngt-slate-800: #1e293b;
+  --ngt-slate-700: #334155;
+  --ngt-slate-600: #475569;
+  --ngt-slate-500: #64748b;
+  --ngt-slate-400: #94a3b8;
+  --ngt-slate-300: #cbd5e1;
+  --ngt-slate-200: #e2e8f0;
+  --ngt-slate-100: #f1f5f9;
+  --ngt-slate-50: #f8fafc;
+  --ngt-white: #ffffff;
+
+  /* Role aliases: prefer these in new components */
+  --ngt-color-bg: var(--ngt-white);
+  --ngt-color-surface: var(--ngt-slate-50);
+  --ngt-color-text: var(--ngt-primary-900);
+  --ngt-color-muted: var(--ngt-primary-600);
+  --ngt-color-brand: var(--ngt-primary-900);
+  --ngt-color-brand-contrast: var(--ngt-white);
+  --ngt-color-accent: var(--ngt-accent-500);
+  --ngt-color-border: var(--ngt-slate-200);
+  --ngt-color-focus: var(--ngt-accent-500);
+
+  /* Typography */
+  --ngt-font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --ngt-font-display: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+  --ngt-font-mono: 'JetBrains Mono', monospace;
+
+  /* Layout & Spacing */
+  --ngt-container-max: 1280px;
+  --ngt-container-wide: 1400px;
+  --ngt-radius-sm: 6px;
+  --ngt-radius-md: 10px;
+  --ngt-radius-lg: 14px;
+  --ngt-radius-xl: 20px;
+  --ngt-radius-full: 9999px;
+
+  /* Shadows */
+  --ngt-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --ngt-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  --ngt-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
+  --ngt-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  --ngt-shadow-card: 0 2px 8px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --ngt-shadow-hero: 0 20px 40px -15px rgba(var(--ngt-primary-rgb), 0.15);
+
+  /* Transitions */
+  --ngt-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  --ngt-transition-slow: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
