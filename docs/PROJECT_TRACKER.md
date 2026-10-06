@@ -113,7 +113,7 @@
 | 2026-10-06 | 7.1–7.4 prep | Orphan branch `nuvexa-main`: one clean commit `b40b61e` (332 files; no `node_modules`/`dist`/`data`/`.env`/`screens`; §6 sweep = 4 negative-test lines in code, docs only otherwise; image bytes noise only). Build + 34/34 tests green. robots.txt/sitemap (server/seo.ts) and canonical/OG/Twitter/JSON-LD all on `https://nuvexaglobaltransport.com`; admin host gets `Disallow: /`, 404 sitemap, `noindex`. DEPLOYMENT §4: hidden-input hash command + exact hPanel env list. Waiting on owner: force-push go-ahead, hPanel setup, smoke test. |
 | 2026-10-06 | 7.4 | Owner: the Hostinger plan allows only 5 Node apps, so admin moved from `private.` subdomain to `/private-user/` on the main domain. Path is server-only (`server/adminPath.ts`, env `ADMIN_PATH`); server serves `index.html` there with an `admin-console` meta marker + `noindex`/`no-store`; `ADMIN_SUBDOMAIN`/`ADMIN_HOST` removed. Verified on the built app: path absent from `dist/`, exact path → console + working login, `/admin`, look-alike paths and `#/admin` on a non-localhost host → not admin, robots.txt doesn't reveal it. Build 0 errors, 34/34 tests. |
 | 2026-10-06 | 7.4 | Owner: Smartsupp live chat removed (loader in `index.html`, hide-on-admin effect in `App.tsx`); admin path shortened to `/private-user/`. |
-| 2026-10-06 | 7.2 | Owner will set a random `ADMIN_PATH` in hPanel (generator command in DEPLOYMENT §4); the live path stays out of the repo. |
+| 2026-10-06 | 7.4 | Owner: keep `/private-user/` as the live admin path (no random `ADMIN_PATH`; simpler to run). Random-path docs from `e8724b5` reverted; `ADMIN_PATH` stays unset in hPanel. |
 
 ---
 

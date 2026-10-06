@@ -37,7 +37,7 @@ Facts confirmed by the owner on 2026-10-03; remaining TBD rows are optional. Onc
 | Legal name (footer ©, legal pages, documents) | **Nuvexa Global Transport Ltd** |
 | Domain | **nuvexaglobaltransport.com** |
 | Primary email | **info@nuvexaglobaltransport.com** |
-| Admin console | `https://nuvexaglobaltransport.com<ADMIN_PATH>/`: default `/private-user/`, live value set only in hPanel `ADMIN_PATH` and never written in the repo (same Node app, private path; owner moved it off the `private.` subdomain on 2026-10-06 because the Hostinger plan allows only 5 Node apps). Never publish the path. |
+| Admin console | `https://nuvexaglobaltransport.com/private-user/` (same Node app, private path; owner moved it off the `private.` subdomain on 2026-10-06 because the Hostinger plan allows only 5 Node apps). Never publish the path. |
 | Tracking-ID prefix | **`NGT`** (owner changed it from NVX on 2026-10-03). Full ID is **exactly 8 characters**: prefix + 5, e.g. `NGT7K2M9` |
 | Reference prefixes | `NGT-SL-######` (seals), `NGT-TKT-######` (tickets), `NGT-INV-######` (invoices) |
 | Tagline | **Faster • Safer • Further** (owner, 2026-10-03: written as on the logo). `TAGLINE = 'Faster • Safer • Further'`; footer and admin upper-case it, no closing full stop. Home H1 stays the headline `Faster, Safer,` / **`Further.`** |
