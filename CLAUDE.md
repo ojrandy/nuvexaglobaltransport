@@ -37,7 +37,7 @@ Facts confirmed by the owner on 2026-10-03; remaining TBD rows are optional. Onc
 | Legal name (footer ©, legal pages, documents) | **Nuvexa Global Transport Ltd** |
 | Domain | **nuvexaglobaltransport.com** |
 | Primary email | **info@nuvexaglobaltransport.com** |
-| Admin console | `https://private.nuvexaglobaltransport.com` (same Node app, separate subdomain). Subdomain `private` unless the owner says otherwise. |
+| Admin console | `https://nuvexaglobaltransport.com/private-userwebspectron/` (same Node app, private path; owner moved it off the `private.` subdomain on 2026-10-06 because the Hostinger plan allows only 5 Node apps). Never publish the path. |
 | Tracking-ID prefix | **`NGT`** (owner changed it from NVX on 2026-10-03). Full ID is **exactly 8 characters**: prefix + 5, e.g. `NGT7K2M9` |
 | Reference prefixes | `NGT-SL-######` (seals), `NGT-TKT-######` (tickets), `NGT-INV-######` (invoices) |
 | Tagline | **Faster • Safer • Further** (owner, 2026-10-03: written as on the logo). `TAGLINE = 'Faster • Safer • Further'`; footer and admin upper-case it, no closing full stop. Home H1 stays the headline `Faster, Safer,` / **`Further.`** |
@@ -53,7 +53,7 @@ Facts confirmed by the owner on 2026-10-03; remaining TBD rows are optional. Onc
 - **Styling:** plain CSS + tokens in `src/styles/tokens.css`. **Colour values stay**; only the variable *prefix* is renamed.
 - **Maps:** Leaflet / react-leaflet, Nominatim geocoding, OSRM routing.
 - **Backend:** Express 5 (`server/`), SQLite via built-in `node:sqlite` (**Node ≥ 22.5**), express-session, helmet, rate limiting.
-- **Admin:** opens only on `private.<DOMAIN>` (`isAdminHost()` reads `ADMIN_SUBDOMAIN` from `src/config/brand.ts`); `#/admin` works on localhost only.
+- **Admin:** opens only at the private path in `server/adminPath.ts` (env `ADMIN_PATH` overrides). The server marks that page with `<meta name="admin-console">`, which `isAdminConsolePage()` in `src/App.tsx` reads, so the path never ships in the client bundle. `#/admin` works on localhost only.
 - **Static assets folder is `Public/` (capital P)** — `vite.config.ts` sets `publicDir: 'Public'`. Don't rename it; Hostinger's Linux build is case-sensitive.
 - **Images pipeline:** originals in `images/` → `node scripts/optimize-images.mjs` → `Public/brand/*`, `Public/images/<folder>/*` and the manifest read by `<ResponsiveImage>`.
 

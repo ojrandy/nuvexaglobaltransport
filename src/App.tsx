@@ -24,7 +24,7 @@ import { Shipment } from './types/shipment';
 import { QuoteRequest } from './types/admin';
 import { api } from './services/api';
 import { simulationEngine } from './services/simulationEngine';
-import { ADMIN_HOST, ADMIN_CONSOLE_NAME, COMPANY, COMPANY_SHORT, SITE_URL } from './config/brand';
+import { ADMIN_CONSOLE_NAME, COMPANY, COMPANY_SHORT } from './config/brand';
 import './styles/global.css';
 
 const loadAdminApp = () => import('./admin/AdminApp');
@@ -34,18 +34,18 @@ const AdminLogin = lazy(() => loadAdminLogin().then((m) => ({ default: m.AdminLo
 
 const KNOWN_PAGES = ['home', 'track', 'services', 'quote', 'ship', 'about', 'help', 'contact', 'legal', 'locations', 'admin'];
 
-// Admin lives only on its own subdomain (ADMIN_HOST in src/config/brand.ts), served by the same
-// app and API as the public site. Deliberately not "admin." — that's one of the most commonly
-// probed/guessed subdomain names. An exact hostname match, so no other host (the public domain,
-// www., or a look-alike such as private.example.com) ever opens the console. localhost is
-// exempted separately so local dev can keep using the plain #/admin hash.
-function isAdminHost(): boolean {
-  if (typeof window === 'undefined') return false;
-  return window.location.hostname.toLowerCase() === ADMIN_HOST;
+// Admin lives only at a private path on the main domain (server/adminPath.ts), served by the
+// same app and API as the public site. The path is deliberately server-only: the server marks
+// the page it serves there with <meta name="admin-console">, so the path never appears in this
+// public bundle and no other URL (/, #/admin, a look-alike path) ever opens the console.
+// localhost is exempted separately so local dev can keep using the plain #/admin hash.
+function isAdminConsolePage(): boolean {
+  if (typeof document === 'undefined') return false;
+  return document.querySelector('meta[name="admin-console"]') !== null;
 }
 
 // Search engines must never index the console. Added at runtime (not in index.html) because the
-// public site and the admin host share the same index.html.
+// public site and the admin console share the same index.html.
 function setRobotsNoIndex(enabled: boolean) {
   let tag = document.querySelector<HTMLMetaElement>('meta[name="robots"][data-admin]');
   if (enabled && !tag) {
@@ -109,7 +109,7 @@ function isLocalDevHost(): boolean {
 // existing hash-parsing effect (below) still runs afterward and resolves them for real.
 function getInitialPage(): string {
   if (typeof window === 'undefined') return 'home';
-  if (isAdminHost()) return 'admin';
+  if (isAdminConsolePage()) return 'admin';
   const hash = window.location.hash.replace('#', '');
   const pathname = window.location.pathname.replace(/^\//, '');
   const target = hash || (pathname ? `/${pathname}` : '');
@@ -187,7 +187,7 @@ function MainAppContent() {
       admin: { title: ADMIN_CONSOLE_NAME, description: DEFAULT_DESCRIPTION },
     };
     setPageMeta(meta[currentPage] || PAGE_META.home);
-    setRobotsNoIndex(currentPage === 'admin' || isAdminHost());
+    setRobotsNoIndex(currentPage === 'admin' || isAdminConsolePage());
   }, [currentPage, liveShipment, currentQuote]);
 
   // Smartsupp live chat (loaded in index.html) is for customers only — keep it off the admin console.
@@ -195,13 +195,13 @@ function MainAppContent() {
   useEffect(() => {
     const smartsupp = (window as { smartsupp?: (...args: unknown[]) => void }).smartsupp;
     if (!smartsupp) return;
-    smartsupp(currentPage === 'admin' || isAdminHost() ? 'chat:hide' : 'chat:show');
+    smartsupp(currentPage === 'admin' || isAdminConsolePage() ? 'chat:hide' : 'chat:show');
   }, [currentPage]);
 
   // Initialize from hash if available
   useEffect(() => {
     const handleHash = async () => {
-      if (isAdminHost()) {
+      if (isAdminConsolePage()) {
         setCurrentPage('admin');
         return;
       }
@@ -239,7 +239,7 @@ function MainAppContent() {
         const quoteId = target.replace('/quote/', '');
         handleTrackShipment(quoteId);
       } else if (target.startsWith('/admin') || target === 'admin') {
-        // No longer resolves on the public domain — admin moved to its own subdomain.
+        // Doesn't resolve on the live site — admin lives at its private path only.
         // Exempted on localhost so local dev can keep using the plain #/admin hash.
         if (isLocalDevHost()) {
           setCurrentPage('admin');
@@ -268,10 +268,10 @@ function MainAppContent() {
   }, [getShipment, quoteRequests, shipments, currentShipment]);
 
   const handleNavigate = (page: string, param?: string) => {
-    // The admin host only ever shows the console; public pages live on the main domain.
-    if (isAdminHost() && page !== 'admin') {
+    // The admin path only ever shows the console; public pages live at the site root.
+    if (isAdminConsolePage() && page !== 'admin') {
       const path = page === 'home' ? '' : (param ? `/${page}/${param}` : `/${page}`);
-      window.location.assign(path ? `${SITE_URL}/#${path}` : `${SITE_URL}/`);
+      window.location.assign(path ? `/#${path}` : '/');
       return;
     }
     if (page === 'quote' && param) {
@@ -420,8 +420,8 @@ function MainAppContent() {
           <AdminApp
             onNavigatePublic={handleNavigate}
             onViewPublicTracking={(trk) => {
-              if (isAdminHost()) {
-                window.location.assign(`${SITE_URL}/#/track/${encodeURIComponent(trk)}`);
+              if (isAdminConsolePage()) {
+                window.location.assign(`/#/track/${encodeURIComponent(trk)}`);
               } else {
                 handleTrackShipment(trk);
               }

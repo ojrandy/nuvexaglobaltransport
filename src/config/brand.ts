@@ -21,9 +21,8 @@ export const LOGO_WHITE = '/brand/ngt-logo-white.png';
 export const LOGO_HEADER = '/brand/ngt-logo-header.png';
 export const LOGO_ALT = COMPANY;
 
-// The admin console only opens on <ADMIN_SUBDOMAIN>.<DOMAIN> (plus localhost for development).
-export const ADMIN_SUBDOMAIN = 'private';
-export const ADMIN_HOST = `${ADMIN_SUBDOMAIN}.${DOMAIN}`;
+// The admin console opens at a private path on DOMAIN (plus #/admin on localhost for development).
+// The path is server-only (server/adminPath.ts) so it never ships in the public bundle.
 export const ADMIN_CONSOLE_NAME = `${COMPANY_SHORT} Operations Console`;
 
 // Role label shown in the admin UI (CONTENT §10), also written as the operator on new records.

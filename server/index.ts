@@ -17,6 +17,7 @@ import { statsRouter } from './routes/stats.js';
 import { authRouter } from './routes/auth.js';
 import { messagesRouter } from './routes/messages.js';
 import { seoRouter } from './seo.js';
+import { isAdminPath } from './adminPath.js';
 import { requireAdminAuth, SESSION_COOKIE } from './middleware/auth.js';
 
 dotenv.config(); // reload trigger for tsx watch after .env changes
@@ -203,6 +204,27 @@ if (ADMIN_PROXY_TARGET) {
 // #/track/...), so the browser only ever requests the bare "/" from the server no matter which
 // in-app page is open (everything after "#" stays client-side) — express.static's default
 // index.html-for-"/" behavior is enough, no separate SPA catch-all route is needed.
+//
+// The admin console is the same index.html served at the private admin path (server/
+// adminPath.ts), marked with <meta name="admin-console"> so the app opens the console without
+// the client ever knowing the path, and kept out of caches and search engines.
+let adminIndexHtml: string | null = null;
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if ((req.method !== 'GET' && req.method !== 'HEAD') || !isAdminPath(req.path)) return next();
+  if (adminIndexHtml === null) {
+    try {
+      adminIndexHtml = fs.readFileSync(path.join(process.cwd(), 'dist', 'index.html'), 'utf8').replace(
+        '<head>',
+        '<head>\n    <meta name="admin-console" content="1" />\n    <meta name="robots" content="noindex, nofollow" />'
+      );
+    } catch {
+      return next();
+    }
+  }
+  res.setHeader('Cache-Control', 'no-store, private');
+  res.type('html').send(adminIndexHtml);
+});
+
 app.use(express.static(path.join(process.cwd(), 'dist')));
 
 // Last-resort error handler — catches anything that bypassed every route's own try/catch

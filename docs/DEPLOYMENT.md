@@ -75,13 +75,15 @@ Paste the outputs into `ADMIN_PASSWORD_HASH` and `SESSION_SECRET`. **Never reuse
 
 **hPanel → Environment variables (Nuvexa):** `NODE_ENV=production`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET`,
 `SEED_DEMO_DATA=false`, `DB_PATH=/home/<hostinger-user>/nuvexa-data/ngt.db` (the server creates the folder). Set `PORT`
-only if the panel doesn't. Leave `ADMIN_PROXY_TARGET` **unset**: the admin host is an alias of the same app.
+only if the panel doesn't. Leave `ADMIN_PROXY_TARGET` **unset**: the admin console is part of the same app.
+Optional: `ADMIN_PATH` to move the console to another private path without a code change (default
+`/private-userwebspectron`, see §5).
 
 **Database.** Nuvexa starts with a **fresh** `ngt.db`; nothing is migrated from the previous client. The server
 creates the schema on first start.
 
 **Check persistence before launch:** log in to the admin console, then open
-`https://private.{{DOMAIN}}/api/diag/storage` in the same browser. Redeploy and open it again. If `markerFirstSeen` stays
+`https://{{DOMAIN}}/api/diag/storage` in the same browser. Redeploy and open it again. If `markerFirstSeen` stays
 the same, storage persists. **Then remove that endpoint.**
 
 ## 5. Domains & DNS
@@ -90,14 +92,18 @@ the same, storage persists. **Then remove that endpoint.**
 |---|---|---|
 | `{{DOMAIN}}` | Node app | Public site |
 | `www.{{DOMAIN}}` | Redirect → apex | |
-| `private.{{DOMAIN}}` | **Same** Node app (additional domain/alias) | Admin console |
 
-- `isAdminHost()` in `src/App.tsx` reads `ADMIN_HOST` from `src/config/brand.ts` (`private.` + `DOMAIN`), so setting
-  `DOMAIN` is all the code needs.
-- Add `private.{{DOMAIN}}` as an alias of the **same** app, so both hostnames share one API, session store and database.
-- On the public domain `#/admin` falls back to Home; the admin host serves `noindex, nofollow`. Don't list the subdomain
-  in `robots.txt` or a sitemap.
-- SSL on for all three hostnames; force HTTPS.
+**Admin console: `https://{{DOMAIN}}/private-userwebspectron/`** (owner, 2026-10-06). It's a path on the same app,
+not a subdomain, so the whole site is **one** Hostinger Node app and needs no extra DNS record.
+
+- The path lives only in `server/adminPath.ts` (overridable with the `ADMIN_PATH` env var). The server serves
+  `index.html` there with a `<meta name="admin-console">` marker that `isAdminConsolePage()` in `src/App.tsx` reads,
+  so the path never appears in the public JS bundle.
+- Exact match only: `/private-userwebspectron` and `/private-userwebspectron/` open the console; anything else under it,
+  `/admin` and `#/admin` on the live domain do not. The console page is sent with `noindex, nofollow` and `no-store`.
+- **Keep the path private.** Don't put it in `robots.txt`, the sitemap, links, or anything public. A path hides the
+  console and cuts bot noise; the password and login rate limit are still what protect it.
+- SSL on for both hostnames; force HTTPS.
 
 ## 6. Email ({{EMAIL}})
 
@@ -110,7 +116,7 @@ the same, storage persists. **Then remove that endpoint.**
 
 - [ ] Home loads over HTTPS with the Nuvexa logo and photos, no console errors.
 - [ ] `/api/health` returns `ok` with service name "Nuvexa Global Transport API".
-- [ ] `private.{{DOMAIN}}` → login works with the **new** password; the old SDL password does not. `#/admin` on the public domain does **not** open admin.
+- [ ] `{{DOMAIN}}/private-userwebspectron/` → login works with the **new** password; the old SDL password does not. `/admin` and `#/admin` on the public domain do **not** open admin.
 - [ ] Create a shipment in admin → it gets an `NGT` + 5-character ID → the public Track page finds it.
 - [ ] Waybill / POD PDFs download and show Nuvexa branding only.
 - [ ] Quote request → appears in admin → quote link opens publicly.
