@@ -50,10 +50,10 @@
 - [x] 6.3 Visual comparison at 375px / 1440px: only name, logo and photos differ. *Also differ, by owner decision: Home H1 (`Faster, Safer, Further.`), tagline, +4 gateways (22 vs 18).*
 
 ## Phase 7 — Deploy (Prompt 07, DEPLOYMENT.md)
-- [ ] 7.1 Fresh history (owner chose option B): one clean commit force-pushed to `ojrandy/nuvexaglobaltransport` `main` after the owner's final go-ahead (DEPLOYMENT §2).
-- [ ] 7.2 New admin password hash + new session secret set in hPanel (never committed).
-- [ ] 7.3 Hostinger Node app: Node 22.x, install/start commands, env vars, `DB_PATH` outside the app folder.
-- [ ] 7.4 Domain, `www`, and `private.` subdomain on the same app; SSL forced.
+- [~] 7.1 Fresh history (owner chose option B): one clean commit force-pushed to `ojrandy/nuvexaglobaltransport` `main` after the owner's final go-ahead (DEPLOYMENT §2).
+- [~] 7.2 New admin password hash + new session secret set in hPanel (never committed).
+- [~] 7.3 Hostinger Node app: Node 22.x, install/start commands, env vars, `DB_PATH` outside the app folder.
+- [~] 7.4 Domain, `www`, and `private.` subdomain on the same app; SSL forced.
 - [ ] 7.5 Email mailbox + MX/SPF/DKIM/DMARC.
 - [ ] 7.6 Live smoke test (DEPLOYMENT §7) passed; persistence confirmed after a redeploy.
 
@@ -78,6 +78,7 @@
 | 14 | ~~OG image~~ **Resolved 2026-10-04: keep the photo, scrim darkened to 0.82** | 4.2 |
 | 15 | ~~Drawer email overflow~~ **Resolved 2026-10-04: drawer button text reduced to 0.75rem** | 4.3 |
 | 16 | Gateways: owner asked for Asia + USA gateways (2026-10-04), then to keep Africa but list it last. Picked Seoul (ICN), Tokyo (NRT), Chicago (ORD), Miami (MIA) and new lanes; confirm or swap the cities | Home, Network |
+| 17 | Final yes for the force-push of `nuvexa-main` → `nuvexa` `main` (replaces GitHub history); then remove remotes `origin` + `sdl`. Also: keep or trim the SDL mentions in CLAUDE.md / PROMPTS.md / docs/*.md before pushing? | 7.1 |
 
 ## Decisions log
 | Date | Decision |
@@ -109,6 +110,7 @@
 | 2026-10-04 | Gateways | Owner: keep Africa, listed last. LOS/ACC/NBO/JNB restored at the end of `GATEWAYS` (22 total) with their 5 lanes; `Africa` is the last region (Network page) and last in the region copy (Home, About, Network meta, CONTENT §9). Build 0 errors, 34/34 tests. |
 | 2026-10-05 | 5.1–5.3 redo | Owner asked for free online photos. 13 Unsplash photos (licence + credits in `images/unsplash/SOURCES.md`), one per slot; 4 Pexels kept (air cargo, warehouse tablet, headset ×2). Every candidate checked for third-party branding: rejected photos with legible Maersk, DHL, Hapag-Lloyd, PSA, NYK, Swissport, Zalando and ship-name markings; the Pexels port photo (OOCL/Textainer/Nedlloyd containers) retired. Deleted unused originals `images/free-cc0/*`, `images/site/*`, `free-pexels/service-freight-linehaul.jpg`. OG image now uses the home hero. Alt texts replaced in Home/Services/About/Locations/Track/TrackResult + CONTENT §12. Build 0 errors, 34/34 tests; checked at 375 (DevTools emulation, no overflow) + 1440. |
 | 2026-10-06 | 6.1–6.3 | Sweep: source 4 lines (negative tests only), build 0 text hits, asset names 0; image/lock-file hits are binary noise. Fresh build + 34/34 tests. Regression on scratch DB (built app, port 5055): pages, admin login (`ngt.sid`), create → `NGT6VGJS` → public track, `-01` piece label, quote → admin → publish → public `#/quote/QR-…`, contact → `NGT-TKT-692408`, BOL + label PDFs (valid, Nuvexa-branded), delivered → POD entry AVAILABLE, signer masked. Visual: headless Chrome vs `8161ae7` build, Home/Services/Track Result/admin at 375 + 1440: no new style signatures; differences only logo, name, photos, H1/tagline, 4 extra gateways, test data. Pre-existing (also in baseline, not changed): three 401 console errors on public pages (`/api/shipments`, `/api/quotes`, `/api/documents`); no separate POD PDF generator (POD is a status entry). |
+| 2026-10-06 | 7.1–7.4 prep | Orphan branch `nuvexa-main`: one clean commit `b40b61e` (332 files; no `node_modules`/`dist`/`data`/`.env`/`screens`; §6 sweep = 4 negative-test lines in code, docs only otherwise; image bytes noise only). Build + 34/34 tests green. robots.txt/sitemap (server/seo.ts) and canonical/OG/Twitter/JSON-LD all on `https://nuvexaglobaltransport.com`; admin host gets `Disallow: /`, 404 sitemap, `noindex`. DEPLOYMENT §4: hidden-input hash command + exact hPanel env list. Waiting on owner: force-push go-ahead, hPanel setup, smoke test. |
 
 ---
 

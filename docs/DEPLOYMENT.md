@@ -64,14 +64,18 @@ SEED_DEMO_DATA=false
 DB_PATH=/home/<hostinger-user>/nuvexa-data/ngt.db   # a folder OUTSIDE the app/deploy directory
 ```
 
-**New admin password.** The owner picks it and runs this locally, typing the password themselves. Nobody writes the
-password in a file, a commit or a chat:
+**New admin password.** The owner picks it and runs this locally in the project folder (it needs `bcryptjs` from
+`node_modules`). The first command asks for the password with hidden input, so it never lands on screen, in shell
+history, in a file, a commit or a chat:
 ```bash
-node -e "console.log(require('bcryptjs').hashSync(process.argv[1], 12))" 'YOUR-NEW-PASSWORD'
+node -e "const r=require('readline').createInterface({input:process.stdin,output:process.stdout});r._writeToOutput=()=>{};process.stdout.write('New admin password: ');r.question('',p=>{r.close();console.log('\n'+require('bcryptjs').hashSync(p,12))})"
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
-Paste the outputs into `ADMIN_PASSWORD_HASH` and `SESSION_SECRET`. **Never reuse the previous client's values.** (Clear
-the command from your shell history afterwards if you typed the password on the command line.)
+Paste the outputs into `ADMIN_PASSWORD_HASH` and `SESSION_SECRET`. **Never reuse the previous client's values.**
+
+**hPanel → Environment variables (Nuvexa):** `NODE_ENV=production`, `ADMIN_PASSWORD_HASH`, `SESSION_SECRET`,
+`SEED_DEMO_DATA=false`, `DB_PATH=/home/<hostinger-user>/nuvexa-data/ngt.db` (the server creates the folder). Set `PORT`
+only if the panel doesn't. Leave `ADMIN_PROXY_TARGET` **unset**: the admin host is an alias of the same app.
 
 **Database.** Nuvexa starts with a **fresh** `ngt.db`; nothing is migrated from the previous client. The server
 creates the schema on first start.
